@@ -1,322 +1,366 @@
 
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => [...document.querySelectorAll(selector)];
+const $ = (selector, parent = document) => parent.querySelector(selector);
+const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
 
-let currentLanguage = "fa";
-let activeCategory = "all";
-
-const form = $("#searchForm");
+const searchForm = $("#searchForm");
 const destinationInput = $("#destination");
 const checkinInput = $("#checkin");
 const checkoutInput = $("#checkout");
 const guestsInput = $("#guests");
-const cards = $$(".stay-card");
+const staysGrid = $("#staysGrid");
+const stayCards = $$(".stay-card");
+const filterButtons = $$(".filter-btn");
+const sortSelect = $("#sortSelect");
 const resultCount = $("#resultCount");
 const noResults = $("#noResults");
-const grid = $("#staysGrid");
-const dialog = $("#bookingDialog");
+const searchHint = $("#searchHint");
+const bookingDialog = $("#bookingDialog");
 const toast = $("#toast");
 
-function translate(key) {
-  const messages = {
-    fa: {
-      results: (n) => `${n} اقامتگاه`,
-      invalidDates: "تاریخ خروج باید بعد از تاریخ ورود باشد.",
-      pastDate: "تاریخ ورود نمی‌تواند در گذشته باشد.",
-      favoritesAdded: "به علاقه‌مندی‌ها اضافه شد ♡",
-      favoritesRemoved: "از علاقه‌مندی‌ها حذف شد.",
-      bookingTitle: "جزئیات اقامت",
-      bookingDescription: "قیمت پایه برای هر شب",
-      perNight: " / شب",
-      guests: (n) => `${n} مهمان`,
-      newsletterSuccess: "این نسخه نمایشی است؛ ثبت ایمیل واقعی انجام نمی‌شود.",
-      emailError: "لطفاً یک آدرس ایمیل معتبر وارد کن.",
-      searchDone: "نتایج جست‌وجو به‌روزرسانی شد.",
-      dateLabel: "تاریخ",
-      from: "از",
-      to: "تا"
-    },
-    en: {
-      results: (n) => `${n} stays`,
-      invalidDates: "Check-out must be after check-in.",
-      pastDate: "Check-in cannot be in the past.",
-      favoritesAdded: "Added to your favorites ♡",
-      favoritesRemoved: "Removed from your favorites.",
-      bookingTitle: "Your stay details",
-      bookingDescription: "Starting price per night",
-      perNight: " / night",
-      guests: (n) => `${n} guests`,
-      newsletterSuccess: "Demo only: your email has not been submitted.",
-      emailError: "Please enter a valid email address.",
-      searchDone: "Search results updated.",
-      dateLabel: "Dates",
-      from: "From",
-      to: "To"
-    }
-  };
+let activeCategory = "all";
+let currentLanguage = "fa";
+let favoriteCount = 0;
+let toastTimeout;
 
-  return messages[currentLanguage][key];
-}
+const faDigits = value => String(value).replace(/\d/g, digit => "۰۱۲۳۴۵۶۷۸۹"[digit]);
 
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("show");
 
-  clearTimeout(showToast.timer);
-
-  showToast.timer = setTimeout(() => {
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
     toast.classList.remove("show");
   }, 2600);
 }
 
-// Language switcher
-
 function setLanguage(language) {
   currentLanguage = language;
 
+  const isEnglish = language === "en";
   document.documentElement.lang = language;
-  document.documentElement.dir = language === "fa" ? "rtl" : "ltr";
+  document.documentElement.dir = isEnglish ? "ltr" : "rtl";
+  document.title = isEnglish
+    ? "LUMIÈRE HOTELS | Luxury Stays"
+    : "LUMIÈRE HOTELS | رزرو اقامتگاه لوکس";
 
-  $("#languageBtn").textContent = language === "fa" ? "EN" : "فا";
-
-  $$("[data-fa][data-en]").forEach((element) => {
-    element.innerHTML = element.dataset[language];
+  $$("[data-fa][data-en]").forEach(element => {
+    const value = element.dataset[language];
+    if (value !== undefined) {
+      element.innerHTML = value;
+    }
   });
 
-  $$("[data-placeholder-fa][data-placeholder-en]").forEach((element) => {
-    element.placeholder =
-      element.dataset[
-        language === "fa" ? "placeholderFa" : "placeholderEn"
-      ];
+  $$("[data-placeholder-fa][data-placeholder-en]").forEach(element => {
+    element.placeholder = element.dataset[
+      isEnglish ? "placeholderEn" : "placeholderFa"
+    ];
   });
 
-  $$("[data-filter]").forEach((button) => {
-    button.classList.toggle(
-      "active",
-      button.dataset.filter === activeCategory
+  $$("option[data-fa][data-en]").forEach(option => {
+    option.textContent = option.dataset[language];
+  });
+
+  // متن گزینه‌های تعداد مسافران
+  [...guestsInput.options].forEach(option => {
+    const number = Number(option.value);
+    option.textContent = isEnglish
+      ? `${number} ${number === 1 ? "guest" : "guests"}`
+      : `${faDigits(number)} نفر`;
+  });
+
+  // به‌روزرسانی نام دکمه‌های رزرو
+  $$(".book-btn").forEach(button => {
+    const name = isEnglish
+      ? button.dataset.nameEn
+      : button.dataset.nameFa;
+
+    button.setAttribute(
+      "aria-label",
+      `${isEnglish ? "View and book" : "مشاهده و رزرو"} ${name}`
     );
   });
 
+  // به‌روزرسانی متن‌های پویا
   updateResults();
+  updateSearchHint();
 }
 
-$("#languageBtn").addEventListener("click", () => {
-  setLanguage(currentLanguage === "fa" ? "en" : "fa");
-});
+function updateSearchHint(message) {
+  if (message) {
+    searchHint.textContent = message;
+    return;
+  }
 
-// Category filters
+  searchHint.textContent = currentLanguage === "en"
+    ? "Choose your dates and explore our curated collection."
+    : "تاریخ سفرت را انتخاب کن و از میان اقامتگاه‌های منتخب بگرد.";
+}
 
-$("#filterBar").addEventListener("click", (event) => {
-  const button = event.target.closest("[data-filter]");
+function getSearchValues() {
+  return {
+    destination: destinationInput.value.trim().toLocaleLowerCase(),
+    category: activeCategory,
+    sort: sortSelect.value
+  };
+}
 
-  if (!button) return;
+function getVisibleCards() {
+  const { destination, category } = getSearchValues();
 
-  activeCategory = button.dataset.filter;
+  return stayCards.filter(card => {
+    const matchesCategory =
+      category === "all" || card.dataset.category === category;
 
-  $$("[data-filter]").forEach((item) => {
-    item.classList.toggle("active", item === button);
+    const searchableText = [
+      card.dataset.place,
+      card.querySelector("h3")?.dataset.fa,
+      card.querySelector("h3")?.dataset.en,
+      card.textContent
+    ].join(" ").toLocaleLowerCase();
+
+    const matchesDestination =
+      !destination || searchableText.includes(destination);
+
+    return matchesCategory && matchesDestination;
   });
-
-  updateResults();
-});
-
-// Search and filtering
-
-function normalize(value) {
-  return value
-    .toLocaleLowerCase()
-    .trim()
-    .replace(/\s+/g, " ");
 }
 
 function updateResults() {
-  const query = normalize(destinationInput.value);
-  let visibleCount = 0;
+  const visibleCards = getVisibleCards();
+  const { sort } = getSearchValues();
 
-  cards.forEach((card) => {
-    const matchesCategory =
-      activeCategory === "all" ||
-      card.dataset.category === activeCategory;
+  const sortedCards = [...visibleCards];
 
-    const searchableText = normalize(
-      card.dataset.place + " " +
-      card.querySelector("h3").textContent + " " +
-      card.querySelector(".stay-location").textContent
+  if (sort === "low") {
+    sortedCards.sort(
+      (a, b) => Number(a.dataset.price) - Number(b.dataset.price)
     );
+  } else if (sort === "high") {
+    sortedCards.sort(
+      (a, b) => Number(b.dataset.price) - Number(a.dataset.price)
+    );
+  } else if (sort === "rating") {
+    sortedCards.sort(
+      (a, b) => Number(b.dataset.rating) - Number(a.dataset.rating)
+    );
+  }
 
-    const matchesDestination =
-      query === "" || searchableText.includes(query);
+  sortedCards.forEach((card, index) => {
+    card.hidden = false;
+    card.style.order = index;
+    card.style.animationDelay = `${Math.min(index, 5) * 60}ms`;
+    staysGrid.appendChild(card);
+  });
 
-    const visible = matchesCategory && matchesDestination;
-
-    card.hidden = !visible;
-
-    if (visible) {
-      visibleCount++;
+  stayCards.forEach(card => {
+    if (!sortedCards.includes(card)) {
+      card.hidden = true;
     }
   });
 
-  resultCount.textContent = translate("results")(visibleCount);
-  noResults.hidden = visibleCount !== 0;
-  grid.hidden = visibleCount === 0;
+  noResults.hidden = sortedCards.length > 0;
+
+  resultCount.textContent = currentLanguage === "en"
+    ? `${sortedCards.length} ${sortedCards.length === 1 ? "stay" : "stays"}`
+    : `${faDigits(sortedCards.length)} اقامتگاه`;
 }
 
-form.addEventListener("submit", (event) => {
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    activeCategory = button.dataset.filter;
+
+    filterButtons.forEach(item => {
+      const active = item === button;
+      item.classList.toggle("active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+
+    updateResults();
+  });
+});
+
+sortSelect.addEventListener("change", updateResults);
+
+searchForm.addEventListener("submit", event => {
   event.preventDefault();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const destination = destinationInput.value.trim();
+  const checkin = checkinInput.value;
+  const checkout = checkoutInput.value;
 
-  if (checkinInput.value) {
-    const arrival = new Date(checkinInput.value + "T00:00:00");
-
-    if (arrival < today) {
-      showToast(translate("pastDate"));
-      return;
-    }
+  if (!checkin || !checkout) {
+    updateSearchHint(
+      currentLanguage === "en"
+        ? "Please select both check-in and check-out dates."
+        : "لطفاً تاریخ ورود و خروج را انتخاب کن."
+    );
+    (!checkin ? checkinInput : checkoutInput).focus();
+    return;
   }
 
-  if (checkinInput.value && checkoutInput.value) {
-    if (checkoutInput.value <= checkinInput.value) {
-      showToast(translate("invalidDates"));
-      return;
-    }
+  if (checkout <= checkin) {
+    updateSearchHint(
+      currentLanguage === "en"
+        ? "Check-out must be after check-in."
+        : "تاریخ خروج باید بعد از تاریخ ورود باشد."
+    );
+    checkoutInput.focus();
+    return;
   }
 
   updateResults();
 
-  $("#stays").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
+  const visibleCards = getVisibleCards();
 
-  if (!noResults.hidden) {
-    showToast(translate("searchDone"));
+  const nights = Math.round(
+    (new Date(`${checkout}T12:00:00`) -
+      new Date(`${checkin}T12:00:00`)) / 86400000
+  );
+
+  if (visibleCards.length === 0) {
+    updateSearchHint(
+      currentLanguage === "en"
+        ? "No matching demo stays. Try another destination."
+        : "اقامتگاهی با این مشخصات در نمونهٔ نمایشی پیدا نشد؛ مقصد دیگری را امتحان کن."
+    );
+  } else {
+    updateSearchHint(
+      currentLanguage === "en"
+        ? `${visibleCards.length} demo stays · ${nights} night(s) · ${guestsInput.value} guest(s). Prices are illustrative.`
+        : `${faDigits(visibleCards.length)} اقامتگاه نمایشی · ${faDigits(nights)} شب · ${faDigits(guestsInput.value)} مسافر. قیمت‌ها نمونه هستند.`
+    );
   }
+
+  $("#hotels").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 destinationInput.addEventListener("input", updateResults);
 
-// Date restrictions
+$("#resetSearch").addEventListener("click", () => {
+  destinationInput.value = "";
+  activeCategory = "all";
+  sortSelect.value = "recommended";
 
-function setDateMinimums() {
-  const today = new Date();
-  const localDate = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, "0"),
-    String(today.getDate()).padStart(2, "0")
-  ].join("-");
+  filterButtons.forEach(button => {
+    const active = button.dataset.filter === "all";
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
 
-  checkinInput.min = localDate;
-  checkoutInput.min = checkinInput.value || localDate;
-
-  if (checkinInput.value && checkoutInput.value <= checkinInput.value) {
-    checkoutInput.value = "";
-  }
-}
-
-checkinInput.addEventListener("change", () => {
-  const arrival = checkinInput.value;
-
-  checkoutInput.min = arrival || checkinInput.min;
-
-  if (checkoutInput.value && checkoutInput.value <= arrival) {
-    checkoutInput.value = "";
-  }
+  updateResults();
+  updateSearchHint();
 });
 
-setDateMinimums();
-
-// Favorites
-
-$$(".favorite-btn").forEach((button) => {
+$$(".favorite-btn").forEach(button => {
   button.addEventListener("click", () => {
-    const isFavorite = button.classList.toggle("favorited");
-
+    const isFavorite = button.classList.toggle("is-favorite");
     button.textContent = isFavorite ? "♥" : "♡";
-    button.setAttribute(
-      "aria-pressed",
-      String(isFavorite)
-    );
+    button.setAttribute("aria-pressed", String(isFavorite));
+
+    favoriteCount += isFavorite ? 1 : -1;
 
     showToast(
       isFavorite
-        ? translate("favoritesAdded")
-        : translate("favoritesRemoved")
+        ? (currentLanguage === "en"
+            ? "Added to your favorites."
+            : "به فهرست علاقه‌مندی‌ها اضافه شد.")
+        : (currentLanguage === "en"
+            ? "Removed from your favorites."
+            : "از فهرست علاقه‌مندی‌ها حذف شد.")
     );
   });
 });
 
-// Booking demo dialog
-
-$$(".book-btn").forEach((button) => {
+$$(".book-btn").forEach(button => {
   button.addEventListener("click", () => {
-    const name = button.dataset.name;
-    const price = Number(button.dataset.price);
+    const hotelName = currentLanguage === "en"
+      ? button.dataset.nameEn
+      : button.dataset.nameFa;
 
-    $("#dialogTitle").textContent = name;
+    $("#dialogTitle").textContent = hotelName;
+    $("#dialogPrice").textContent = button.dataset.price;
 
-    $("#dialogDescription").textContent =
-      translate("bookingDescription");
-
-    $("#dialogPrice").innerHTML =
-      `$${price.toLocaleString("en-US")}<small>${translate("perNight")}</small>`;
-
-    if (typeof dialog.showModal === "function") {
-      dialog.showModal();
+    if (bookingDialog.showModal) {
+      bookingDialog.showModal();
     } else {
       showToast(
-        currentLanguage === "fa"
-          ? "مرورگرت از پنجره رزرو پشتیبانی نمی‌کند."
-          : "Your browser does not support the booking dialog."
+        currentLanguage === "en"
+          ? "Booking demo — real reservations are not enabled."
+          : "این بخش نمایشی است؛ رزرو واقعی فعال نیست."
       );
     }
   });
 });
 
 $("#closeDialog").addEventListener("click", () => {
-  dialog.close();
+  bookingDialog.close();
 });
 
 $("#confirmDemo").addEventListener("click", () => {
-  dialog.close();
+  bookingDialog.close();
+
+  showToast(
+    currentLanguage === "en"
+      ? "Thanks! This portfolio demo does not create a real booking."
+      : "ممنون! این نمونه‌کار رزرو واقعی ثبت نمی‌کند."
+  );
 });
 
-dialog.addEventListener("click", (event) => {
-  if (event.target === dialog) {
-    dialog.close();
+bookingDialog.addEventListener("click", event => {
+  if (event.target === bookingDialog) {
+    bookingDialog.close();
   }
 });
 
-// Newsletter demo
-
-$("#newsletterForm").addEventListener("submit", (event) => {
+$("#newsletterForm").addEventListener("submit", event => {
   event.preventDefault();
 
-  const email = $("#emailInput");
+  const email = $("#emailInput").value.trim();
   const message = $("#newsletterMessage");
 
-  message.classList.remove("error");
+  if (!email) return;
 
-  if (!email.validity.valid) {
-    message.textContent = translate("emailError");
-    message.classList.add("error");
-    return;
+  message.textContent = currentLanguage === "en"
+    ? "Thank you! This demo does not send or store emails."
+    : "ممنون! در این نسخه ایمیل ارسال یا ذخیره نمی‌شود.";
+
+  $("#emailInput").value = "";
+});
+
+$("#languageBtn").addEventListener("click", () => {
+  setLanguage(currentLanguage === "fa" ? "en" : "fa");
+});
+
+// محدود کردن انتخاب تاریخ به امروز و بعد از آن
+function localDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+const today = localDateString(new Date());
+checkinInput.min = today;
+checkoutInput.min = today;
+
+checkinInput.addEventListener("change", () => {
+  checkoutInput.min = checkinInput.value || today;
+
+  if (
+    checkoutInput.value &&
+    checkoutInput.value <= checkinInput.value
+  ) {
+    checkoutInput.value = "";
   }
-
-  message.textContent = translate("newsletterSuccess");
-  email.value = "";
 });
 
-// Image fallback: preserve the layout if an external image fails
-
-$$("img").forEach((img) => {
-  img.addEventListener("error", () => {
-    img.style.opacity = "0";
-    img.setAttribute("aria-label", "Image unavailable");
-  });
+// تنظیم اولیه
+filterButtons.forEach(button => {
+  button.setAttribute(
+    "aria-pressed",
+    String(button.dataset.filter === activeCategory)
+  );
 });
-
-// Initial state
 
 updateResults();
