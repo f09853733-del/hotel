@@ -4,363 +4,279 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#102a28">
-  <meta name="description" content="Discover exceptional luxury hotels, villas and boutique stays with Lumière.">
-  <title>LUMIÈRE | Luxury Stays</title>
+  <meta name="theme-color" content="#103c35">
+  <title>LUMIÈRE HOTELS | رزرو اقامتگاه لوکس</title>
+  <meta name="description" content="هتل‌ها و اقامتگاه‌های منتخب را در LUMIÈRE HOTELS جست‌وجو کنید.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-
-  <header class="navbar">
-    <a href="#" class="logo">
-      <span class="logo-mark">L</span>
-      <span>LUMIÈRE<small>LUXURY STAYS</small></span>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Lumière home">
+      <span class="brand-icon">L</span>
+      <span class="brand-name">LUMIÈRE<small>HOTELS & GETAWAYS</small></span>
     </a>
-
     <nav class="nav-links">
-      <a href="#stays" data-fa="اقامتگاه‌ها" data-en="Stays">اقامتگاه‌ها</a>
-      <a href="#experiences" data-fa="تجربه‌ها" data-en="Experiences">تجربه‌ها</a>
-      <a href="#about" data-fa="درباره ما" data-en="Our story">درباره ما</a>
+      <a href="#hotels" data-fa="هتل‌ها" data-en="Hotels">هتل‌ها</a>
+      <a href="#experiences" data-fa="تجربه‌های خاص" data-en="Experiences">تجربه‌های خاص</a>
+      <a href="#about" data-fa="درباره ما" data-en="About us">درباره ما</a>
     </nav>
-
     <div class="nav-actions">
-      <button class="language-btn" id="languageBtn" type="button">EN</button>
-      <a href="#stays" class="nav-cta" data-fa="کشف اقامتگاه‌ها ↗" data-en="Explore stays ↗">کشف اقامتگاه‌ها ↗</a>
+      <button class="language-btn" id="languageBtn" type="button">EN / FA</button>
+      <a class="nav-cta" href="#search" data-fa="جست‌وجوی اقامت" data-en="Find a stay">جست‌وجوی اقامت</a>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <img class="hero-image"
-        src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2200&q=90"
-        alt="Luxury villa overlooking the sea">
-
-      <div class="hero-shade"></div>
-
+      <img class="hero-photo"
+        src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2200&q=85"
+        alt="استخر یک هتل لوکس"
+        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2200&q=85'">
+      <div class="hero-overlay"></div>
       <div class="hero-content">
-        <div class="eyebrow">
-          <span class="eyebrow-line"></span>
-          <span data-fa="هنر اقامت متفاوت" data-en="THE ART OF EXCEPTIONAL STAYS">هنر اقامت متفاوت</span>
-        </div>
-
-        <h1 data-fa="جایی فراتر از<br>یک <em>اقامت ساده.</em>" data-en="Beyond a place<br>to <em>stay.</em>">
-          جایی فراتر از<br>یک <em>اقامت ساده.</em>
-        </h1>
-
-        <p data-fa="اقامتگاه‌های خاص، مقصدهای فراموش‌نشدنی و لحظه‌هایی که تا همیشه به یاد می‌مانند."
-           data-en="Extraordinary stays, remarkable destinations and moments worth remembering.">
-          اقامتگاه‌های خاص، مقصدهای فراموش‌نشدنی و لحظه‌هایی که تا همیشه به یاد می‌مانند.
-        </p>
-
-        <a href="#stays" class="hero-link">
-          <span data-fa="دنیای LUMIÈRE را کشف کن" data-en="Discover the world of LUMIÈRE">دنیای LUMIÈRE را کشف کن</span>
-          <span class="arrow-circle">↗</span>
-        </a>
+        <span class="eyebrow"><span class="eyebrow-line"></span><span data-fa="هنر سفر کردن" data-en="THE ART OF GETAWAYS">هنر سفر کردن</span></span>
+        <h1 data-fa="جایی برای<br>فراموش نکردن." data-en="Stay somewhere<br>extraordinary.">جایی برای<br>فراموش نکردن.</h1>
+        <p data-fa="از اقامتگاه‌های آرام و دنج تا هتل‌های باشکوه؛ سفر بعدی‌ات را خاص انتخاب کن." data-en="From peaceful hideaways to remarkable hotels, discover a stay worth remembering.">از اقامتگاه‌های آرام و دنج تا هتل‌های باشکوه؛ سفر بعدی‌ات را خاص انتخاب کن.</p>
+        <a href="#search" class="hero-link"><span data-fa="اقامتگاهت را پیدا کن" data-en="Discover your stay">اقامتگاهت را پیدا کن</span><span class="arrow">↙</span></a>
       </div>
-
-      <div class="hero-caption">
-        <span>01 / 04</span>
-        <span data-fa="ویلای خصوصی · ساحل مدیترانه" data-en="PRIVATE VILLA · MEDITERRANEAN">ویلای خصوصی · ساحل مدیترانه</span>
-      </div>
-
-      <div class="hero-stamp">
-        <span>CURATED</span>
-        <span>WITH CARE</span>
-        <span class="stamp-star">✳</span>
+      <div class="hero-side-note">CURATED STAYS · TIMELESS MOMENTS</div>
+      <div class="hero-bottom">
+        <span data-fa="مقصدهای منتخب، تجربه‌های ماندگار" data-en="Curated destinations. Lasting memories.">مقصدهای منتخب، تجربه‌های ماندگار</span>
+        <span class="hero-number">01 — 04</span>
       </div>
     </section>
 
-    <section class="search-section" aria-label="Search stays">
+    <section class="search-section" id="search">
+      <div class="search-heading">
+        <span class="section-kicker" data-fa="اقامت بعدی شما" data-en="YOUR NEXT ESCAPE">اقامت بعدی شما</span>
+        <h2 data-fa="کجا به شما خوش می‌گذرد؟" data-en="Where will you feel at home?">کجا به شما خوش می‌گذرد؟</h2>
+      </div>
       <form class="search-panel" id="searchForm">
-        <label class="search-field">
+        <label class="search-field destination-field">
           <span class="field-icon">⌖</span>
-          <span class="field-content">
-            <span class="field-label" data-fa="مقصد" data-en="DESTINATION">مقصد</span>
-            <input id="destination" type="search" placeholder="کجا می‌خواهی بروی؟" data-placeholder-fa="کجا می‌خواهی بروی؟" data-placeholder-en="Where would you like to go?" aria-label="Destination">
+          <span class="field-body">
+            <span class="field-label" data-fa="مقصد یا نام هتل" data-en="Destination or hotel">مقصد یا نام هتل</span>
+            <input id="destination" type="search" placeholder="مثلاً کیش، شیراز..." data-placeholder-fa="مثلاً کیش، شیراز..." data-placeholder-en="e.g. Kish, Shiraz..." autocomplete="off">
           </span>
         </label>
-
         <label class="search-field">
-          <span class="field-icon">▦</span>
-          <span class="field-content">
-            <span class="field-label" data-fa="ورود" data-en="CHECK-IN">ورود</span>
-            <input id="checkin" type="date" aria-label="Check-in">
+          <span class="field-icon">↗</span>
+          <span class="field-body">
+            <span class="field-label" data-fa="تاریخ ورود" data-en="Check-in">تاریخ ورود</span>
+            <input id="checkin" type="date" required>
           </span>
         </label>
-
         <label class="search-field">
-          <span class="field-icon">▦</span>
-          <span class="field-content">
-            <span class="field-label" data-fa="خروج" data-en="CHECK-OUT">خروج</span>
-            <input id="checkout" type="date" aria-label="Check-out">
+          <span class="field-icon">↙</span>
+          <span class="field-body">
+            <span class="field-label" data-fa="تاریخ خروج" data-en="Check-out">تاریخ خروج</span>
+            <input id="checkout" type="date" required>
           </span>
         </label>
-
-        <label class="search-field guests-field">
-          <span class="field-icon">♧</span>
-          <span class="field-content">
-            <span class="field-label" data-fa="مهمانان" data-en="GUESTS">مهمانان</span>
-            <select id="guests" aria-label="Guests">
-              <option value="1">۱ مهمان</option>
-              <option value="2" selected>۲ مهمان</option>
-              <option value="3">۳ مهمان</option>
-              <option value="4">۴ مهمان</option>
-              <option value="5">۵ مهمان</option>
-              <option value="6">۶+ مهمان</option>
+        <label class="search-field guest-field">
+          <span class="field-icon">♙</span>
+          <span class="field-body">
+            <span class="field-label" data-fa="مسافران" data-en="Guests">مسافران</span>
+            <select id="guests">
+              <option value="1">۱ نفر</option>
+              <option value="2" selected>۲ نفر</option>
+              <option value="3">۳ نفر</option>
+              <option value="4">۴ نفر</option>
+              <option value="5">۵ نفر</option>
+              <option value="6">۶ نفر</option>
             </select>
           </span>
         </label>
-
-        <button class="search-btn" type="submit">
-          <span data-fa="جست‌وجو" data-en="Search stays">جست‌وجو</span>
-          <span>↗</span>
-        </button>
+        <button class="search-btn" type="submit"><span data-fa="جست‌وجو" data-en="Search stays">جست‌وجو</span><span>↗</span></button>
       </form>
+      <p class="search-hint" id="searchHint" aria-live="polite">تاریخ سفرت را انتخاب کن و از میان اقامتگاه‌های منتخب بگرد.</p>
     </section>
 
-    <section class="stays-section section-pad" id="stays">
+    <section class="hotels-section section-pad" id="hotels">
       <div class="section-heading">
         <div>
-          <div class="eyebrow dark-eyebrow">
-            <span class="eyebrow-line"></span>
-            <span data-fa="انتخاب‌های ویژه" data-en="THE COLLECTION">انتخاب‌های ویژه</span>
-          </div>
-          <h2 data-fa="اقامتگاه‌هایی با <em>شخصیت.</em>" data-en="Stays with <em>character.</em>">
-            اقامتگاه‌هایی با <em>شخصیت.</em>
-          </h2>
-          <p data-fa="هر مقصد، داستانی متفاوت برای تعریف کردن دارد."
-             data-en="Every destination has a story of its own.">
-            هر مقصد، داستانی متفاوت برای تعریف کردن دارد.
-          </p>
+          <span class="section-kicker" data-fa="منتخب برای شما" data-en="HANDPICKED FOR YOU">منتخب برای شما</span>
+          <h2 data-fa="اقامتگاه‌هایی با امضای خاص" data-en="Stays with a signature">اقامتگاه‌هایی با امضای خاص</h2>
+          <p data-fa="جایی فراتر از یک اتاق؛ تجربه‌ای که به خاطر می‌سپاری." data-en="More than a room — a feeling you remember.">جایی فراتر از یک اتاق؛ تجربه‌ای که به خاطر می‌سپاری.</p>
         </div>
-
-        <a class="text-link" href="#stays">
-          <span data-fa="مشاهده مجموعه" data-en="Explore collection">مشاهده مجموعه</span> ↗
-        </a>
+        <span class="collection-label">THE LUMIÈRE COLLECTION <span>✳</span></span>
       </div>
 
-      <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-filter="all" data-fa="همه اقامتگاه‌ها" data-en="All stays">همه اقامتگاه‌ها</button>
-        <button class="filter-btn" data-filter="villa" data-fa="ویلاها" data-en="Villas">ویلاها</button>
-        <button class="filter-btn" data-filter="hotel" data-fa="هتل‌های لوکس" data-en="Luxury hotels">هتل‌های لوکس</button>
-        <button class="filter-btn" data-filter="nature" data-fa="طبیعت‌گردی" data-en="Nature escapes">طبیعت‌گردی</button>
-        <span class="result-count" id="resultCount">۶ اقامتگاه</span>
+      <div class="filter-toolbar" id="filterBar">
+        <div class="filter-buttons">
+          <button class="filter-btn active" type="button" data-filter="all" data-fa="همه اقامتگاه‌ها" data-en="All stays">همه اقامتگاه‌ها</button>
+          <button class="filter-btn" type="button" data-filter="hotel" data-fa="هتل‌ها" data-en="Hotels">هتل‌ها</button>
+          <button class="filter-btn" type="button" data-filter="resort" data-fa="ریزورت‌ها" data-en="Resorts">ریزورت‌ها</button>
+          <button class="filter-btn" type="button" data-filter="villa" data-fa="ویلاها" data-en="Villas">ویلاها</button>
+        </div>
+        <div class="sort-wrap">
+          <label for="sortSelect" data-fa="مرتب‌سازی:" data-en="Sort:">مرتب‌سازی:</label>
+          <select id="sortSelect">
+            <option value="recommended" data-fa="پیشنهاد ما" data-en="Recommended">پیشنهاد ما</option>
+            <option value="low" data-fa="کمترین قیمت" data-en="Lowest price">کمترین قیمت</option>
+            <option value="high" data-fa="بیشترین قیمت" data-en="Highest price">بیشترین قیمت</option>
+            <option value="rating" data-fa="بالاترین امتیاز" data-en="Top rated">بالاترین امتیاز</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-line">
+        <span id="resultCount">۶ اقامتگاه</span>
+        <span data-fa="قیمت‌ها برای هر شب هستند" data-en="Prices are per night">قیمت‌ها برای هر شب هستند</span>
       </div>
 
       <div class="stays-grid" id="staysGrid">
-
-        <article class="stay-card" data-category="villa" data-place="bali بالی indonesia اندونزی">
+        <article class="stay-card" data-category="resort" data-place="کیش Kish" data-price="4850000" data-rating="4.9">
           <div class="stay-image-wrap">
-            <img class="stay-image" loading="lazy"
-              src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1000&q=85"
-              alt="Tropical villa in Bali">
-            <span class="image-tag" data-fa="انتخاب سردبیر" data-en="EDITOR'S PICK">انتخاب سردبیر</span>
-            <button class="favorite-btn" aria-label="Add to favorites" type="button">♡</button>
+            <img class="stay-image" loading="lazy" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85" alt="ریزورت لوکس ساحلی" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1000&q=85'">
+            <span class="image-tag" data-fa="انتخاب ویژه" data-en="EDITOR'S PICK">انتخاب ویژه</span>
+            <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها" aria-pressed="false">♡</button>
+            <span class="image-index">01 / 06</span>
           </div>
           <div class="stay-info">
-            <div class="stay-location"><span>⌖</span> BALI, INDONESIA</div>
-            <h3>Villa Solana</h3>
-            <p data-fa="ویلای خصوصی میان طبیعت گرمسیری" data-en="A private villa in tropical nature">ویلای خصوصی میان طبیعت گرمسیری</p>
-            <div class="stay-bottom">
-              <div class="price"><strong>$280</strong><span data-fa=" / شب" data-en=" / night"> / شب</span></div>
-              <span class="rating">★ 4.98</span>
-            </div>
-            <button class="book-btn" data-name="Villa Solana" data-price="280" type="button">
-              <span data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو</span> ↗
-            </button>
+            <div class="stay-location"><span>⌖</span><span data-fa="کیش، ایران" data-en="Kish, Iran">کیش، ایران</span></div>
+            <h3 data-fa="مارینا گرند ریزورت" data-en="Marina Grand Resort">مارینا گرند ریزورت</h3>
+            <div class="stay-meta"><span class="stars">★★★★★</span><span>4.9</span><span class="meta-dot">·</span><span data-fa="استخر و ساحل" data-en="Pool & beach">استخر و ساحل</span></div>
+            <div class="stay-bottom"><div class="price"><strong>۴,۸۵۰,۰۰۰</strong><span data-fa="تومان / شب" data-en="IRR / night">تومان / شب</span></div><button class="book-btn" type="button" data-name-fa="مارینا گرند ریزورت" data-name-en="Marina Grand Resort" data-price="۴,۸۵۰,۰۰۰ تومان" data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو <span>↗</span></button></div>
           </div>
         </article>
 
-        <article class="stay-card" data-category="hotel" data-place="santorini سانتورینی greece یونان">
+        <article class="stay-card" data-category="hotel" data-place="تهران Tehran" data-price="3650000" data-rating="4.8">
           <div class="stay-image-wrap">
-            <img class="stay-image" loading="lazy"
-              src="https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?auto=format&fit=crop&w=1000&q=85"
-              alt="White luxury hotel in Santorini">
-            <button class="favorite-btn" aria-label="Add to favorites" type="button">♡</button>
+            <img class="stay-image" loading="lazy" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1000&q=85" alt="هتل لوکس شهری" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=85'">
+            <span class="image-tag" data-fa="لوکس شهری" data-en="CITY LUXURY">لوکس شهری</span>
+            <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها" aria-pressed="false">♡</button>
+            <span class="image-index">02 / 06</span>
           </div>
           <div class="stay-info">
-            <div class="stay-location"><span>⌖</span> SANTORINI, GREECE</div>
-            <h3>Azure Caldera</h3>
-            <p data-fa="سوئیت لوکس با چشم‌انداز دریای اژه" data-en="Luxury suite overlooking the Aegean">سوئیت لوکس با چشم‌انداز دریای اژه</p>
-            <div class="stay-bottom">
-              <div class="price"><strong>$420</strong><span data-fa=" / شب" data-en=" / night"> / شب</span></div>
-              <span class="rating">★ 4.96</span>
-            </div>
-            <button class="book-btn" data-name="Azure Caldera" data-price="420" type="button">
-              <span data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو</span> ↗
-            </button>
+            <div class="stay-location"><span>⌖</span><span data-fa="تهران، ایران" data-en="Tehran, Iran">تهران، ایران</span></div>
+            <h3 data-fa="هتل رویال پالاس" data-en="Royal Palace Hotel">هتل رویال پالاس</h3>
+            <div class="stay-meta"><span class="stars">★★★★★</span><span>4.8</span><span class="meta-dot">·</span><span data-fa="اسپا و رستوران" data-en="Spa & dining">اسپا و رستوران</span></div>
+            <div class="stay-bottom"><div class="price"><strong>۳,۶۵۰,۰۰۰</strong><span data-fa="تومان / شب" data-en="IRR / night">تومان / شب</span></div><button class="book-btn" type="button" data-name-fa="هتل رویال پالاس" data-name-en="Royal Palace Hotel" data-price="۳,۶۵۰,۰۰۰ تومان" data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو <span>↗</span></button></div>
           </div>
         </article>
 
-        <article class="stay-card" data-category="nature" data-place="switzerland سوئیس alps آلپ">
+        <article class="stay-card" data-category="villa" data-place="رامسر Ramsar" data-price="5900000" data-rating="5.0">
           <div class="stay-image-wrap">
-            <img class="stay-image" loading="lazy"
-              src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1000&q=85"
-              alt="Mountain cabin surrounded by nature">
-            <button class="favorite-btn" aria-label="Add to favorites" type="button">♡</button>
+            <img class="stay-image" loading="lazy" src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1000&q=85" alt="ویلای مدرن در دل طبیعت" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85'">
+            <span class="image-tag" data-fa="خلوتگاه خصوصی" data-en="PRIVATE RETREAT">خلوتگاه خصوصی</span>
+            <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها" aria-pressed="false">♡</button>
+            <span class="image-index">03 / 06</span>
           </div>
           <div class="stay-info">
-            <div class="stay-location"><span>⌖</span> SWISS ALPS</div>
-            <h3>The Alpine Hideaway</h3>
-            <p data-fa="کلبه‌ای دنج در آغوش کوهستان" data-en="A secluded cabin embraced by mountains">کلبه‌ای دنج در آغوش کوهستان</p>
-            <div class="stay-bottom">
-              <div class="price"><strong>$310</strong><span data-fa=" / شب" data-en=" / night"> / شب</span></div>
-              <span class="rating">★ 4.95</span>
-            </div>
-            <button class="book-btn" data-name="The Alpine Hideaway" data-price="310" type="button">
-              <span data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو</span> ↗
-            </button>
+            <div class="stay-location"><span>⌖</span><span data-fa="رامسر، ایران" data-en="Ramsar, Iran">رامسر، ایران</span></div>
+            <h3 data-fa="ویلا جنگلی سِرِن" data-en="Serene Forest Villa">ویلا جنگلی سِرِن</h3>
+            <div class="stay-meta"><span class="stars">★★★★★</span><span>5.0</span><span class="meta-dot">·</span><span data-fa="ویوی جنگل و استخر" data-en="Forest view & pool">ویوی جنگل و استخر</span></div>
+            <div class="stay-bottom"><div class="price"><strong>۵,۹۰۰,۰۰۰</strong><span data-fa="تومان / شب" data-en="IRR / night">تومان / شب</span></div><button class="book-btn" type="button" data-name-fa="ویلا جنگلی سِرِن" data-name-en="Serene Forest Villa" data-price="۵,۹۰۰,۰۰۰ تومان" data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو <span>↗</span></button></div>
           </div>
         </article>
 
-        <article class="stay-card" data-category="hotel" data-place="paris پاریس france فرانسه">
+        <article class="stay-card" data-category="hotel" data-place="شیراز Shiraz" data-price="2950000" data-rating="4.7">
           <div class="stay-image-wrap">
-            <img class="stay-image" loading="lazy"
-              src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=85"
-              alt="Paris city view">
-            <button class="favorite-btn" aria-label="Add to favorites" type="button">♡</button>
+            <img class="stay-image" loading="lazy" src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=85" alt="هتل بوتیک لوکس" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1000&q=85'">
+            <span class="image-tag" data-fa="بوتیک هتل" data-en="BOUTIQUE HOTEL">بوتیک هتل</span>
+            <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها" aria-pressed="false">♡</button>
+            <span class="image-index">04 / 06</span>
           </div>
           <div class="stay-info">
-            <div class="stay-location"><span>⌖</span> PARIS, FRANCE</div>
-            <h3>Maison Étoile</h3>
-            <p data-fa="اقامتی شیک در قلب شهر نورها" data-en="An elegant stay in the City of Light">اقامتی شیک در قلب شهر نورها</p>
-            <div class="stay-bottom">
-              <div class="price"><strong>$360</strong><span data-fa=" / شب" data-en=" / night"> / شب</span></div>
-              <span class="rating">★ 4.92</span>
-            </div>
-            <button class="book-btn" data-name="Maison Étoile" data-price="360" type="button">
-              <span data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو</span> ↗
-            </button>
+            <div class="stay-location"><span>⌖</span><span data-fa="شیراز، ایران" data-en="Shiraz, Iran">شیراز، ایران</span></div>
+            <h3 data-fa="خانه بوتیک نارنجستان" data-en="Narenjestan Boutique">خانه بوتیک نارنجستان</h3>
+            <div class="stay-meta"><span class="stars">★★★★★</span><span>4.7</span><span class="meta-dot">·</span><span data-fa="معماری سنتی" data-en="Heritage design">معماری سنتی</span></div>
+            <div class="stay-bottom"><div class="price"><strong>۲,۹۵۰,۰۰۰</strong><span data-fa="تومان / شب" data-en="IRR / night">تومان / شب</span></div><button class="book-btn" type="button" data-name-fa="خانه بوتیک نارنجستان" data-name-en="Narenjestan Boutique" data-price="۲,۹۵۰,۰۰۰ تومان" data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو <span>↗</span></button></div>
           </div>
         </article>
 
-        <article class="stay-card" data-category="villa" data-place="maldives مالدیو ocean اقیانوس">
+        <article class="stay-card" data-category="resort" data-place="قشم Qeshm" data-price="4200000" data-rating="4.8">
           <div class="stay-image-wrap">
-            <img class="stay-image" loading="lazy"
-              src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1000&q=85"
-              alt="Overwater villa in the Maldives">
-            <span class="image-tag" data-fa="تجربه خاص" data-en="UNIQUE ESCAPE">تجربه خاص</span>
-            <button class="favorite-btn" aria-label="Add to favorites" type="button">♡</button>
+            <img class="stay-image" loading="lazy" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1000&q=85" alt="اقامتگاه ساحلی" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85'">
+            <span class="image-tag" data-fa="حال‌وهوای جزیره" data-en="ISLAND ESCAPE">حال‌وهوای جزیره</span>
+            <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها" aria-pressed="false">♡</button>
+            <span class="image-index">05 / 06</span>
           </div>
           <div class="stay-info">
-            <div class="stay-location"><span>⌖</span> MALDIVES</div>
-            <h3>Ocean Pearl</h3>
-            <p data-fa="ویلای روی آب با منظره اقیانوس" data-en="An overwater villa above the ocean">ویلای روی آب با منظره اقیانوس</p>
-            <div class="stay-bottom">
-              <div class="price"><strong>$590</strong><span data-fa=" / شب" data-en=" / night"> / شب</span></div>
-              <span class="rating">★ 4.99</span>
-            </div>
-            <button class="book-btn" data-name="Ocean Pearl" data-price="590" type="button">
-              <span data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو</span> ↗
-            </button>
+            <div class="stay-location"><span>⌖</span><span data-fa="قشم، ایران" data-en="Qeshm, Iran">قشم، ایران</span></div>
+            <h3 data-fa="آبی لاگون ریزورت" data-en="Azure Lagoon Resort">آبی لاگون ریزورت</h3>
+            <div class="stay-meta"><span class="stars">★★★★★</span><span>4.8</span><span class="meta-dot">·</span><span data-fa="ساحل و کافه" data-en="Beach & café">ساحل و کافه</span></div>
+            <div class="stay-bottom"><div class="price"><strong>۴,۲۰۰,۰۰۰</strong><span data-fa="تومان / شب" data-en="IRR / night">تومان / شب</span></div><button class="book-btn" type="button" data-name-fa="آبی لاگون ریزورت" data-name-en="Azure Lagoon Resort" data-price="۴,۲۰۰,۰۰۰ تومان" data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو <span>↗</span></button></div>
           </div>
         </article>
 
-        <article class="stay-card" data-category="nature" data-place="kyoto کیوتو japan ژاپن">
+        <article class="stay-card" data-category="villa" data-place="کردان Kordan" data-price="6750000" data-rating="4.9">
           <div class="stay-image-wrap">
-            <img class="stay-image" loading="lazy"
-              src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1000&q=85"
-              alt="Traditional Kyoto architecture">
-            <button class="favorite-btn" aria-label="Add to favorites" type="button">♡</button>
+            <img class="stay-image" loading="lazy" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85" alt="ویلای لوکس با استخر" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1000&q=85'">
+            <span class="image-tag" data-fa="طراحی معاصر" data-en="CONTEMPORARY DESIGN">طراحی معاصر</span>
+            <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها" aria-pressed="false">♡</button>
+            <span class="image-index">06 / 06</span>
           </div>
           <div class="stay-info">
-            <div class="stay-location"><span>⌖</span> KYOTO, JAPAN</div>
-            <h3>Quietude Kyoto</h3>
-            <p data-fa="اقامتگاهی آرام با الهام از معماری ژاپنی" data-en="A tranquil retreat inspired by Japanese design">اقامتگاهی آرام با الهام از معماری ژاپنی</p>
-            <div class="stay-bottom">
-              <div class="price"><strong>$240</strong><span data-fa=" / شب" data-en=" / night"> / شب</span></div>
-              <span class="rating">★ 4.97</span>
-            </div>
-            <button class="book-btn" data-name="Quietude Kyoto" data-price="240" type="button">
-              <span data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو</span> ↗
-            </button>
+            <div class="stay-location"><span>⌖</span><span data-fa="کردان، ایران" data-en="Kordan, Iran">کردان، ایران</span></div>
+            <h3 data-fa="ویلا رز گاردن" data-en="Rose Garden Villa">ویلا رز گاردن</h3>
+            <div class="stay-meta"><span class="stars">★★★★★</span><span>4.9</span><span class="meta-dot">·</span><span data-fa="استخر خصوصی" data-en="Private pool">استخر خصوصی</span></div>
+            <div class="stay-bottom"><div class="price"><strong>۶,۷۵۰,۰۰۰</strong><span data-fa="تومان / شب" data-en="IRR / night">تومان / شب</span></div><button class="book-btn" type="button" data-name-fa="ویلا رز گاردن" data-name-en="Rose Garden Villa" data-price="۶,۷۵۰,۰۰۰ تومان" data-fa="مشاهده و رزرو" data-en="View & book">مشاهده و رزرو <span>↗</span></button></div>
           </div>
         </article>
-
       </div>
 
-      <p class="no-results" id="noResults" hidden
-         data-fa="اقامتگاهی با این مشخصات پیدا نشد. مقصد دیگری را امتحان کن."
-         data-en="No stays found. Try another destination.">
-        اقامتگاهی با این مشخصات پیدا نشد. مقصد دیگری را امتحان کن.
-      </p>
+      <div class="no-results" id="noResults" hidden>
+        <span>⌕</span>
+        <h3 data-fa="اقامتگاهی پیدا نشد" data-en="No stays found">اقامتگاهی پیدا نشد</h3>
+        <p data-fa="عبارت جست‌وجو یا فیلترها را تغییر بده." data-en="Try changing your search or filters.">عبارت جست‌وجو یا فیلترها را تغییر بده.</p>
+        <button id="resetSearch" type="button" data-fa="نمایش همه اقامتگاه‌ها" data-en="Show all stays">نمایش همه اقامتگاه‌ها</button>
+      </div>
     </section>
 
-    <section class="experience-section" id="experiences">
+    <section class="experience-section section-pad" id="experiences">
       <div class="experience-image">
-        <img loading="lazy"
-          src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1500&q=85"
-          alt="Luxury resort swimming pool">
+        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1300&q=85" alt="فضای آرام و لوکس اقامتگاه" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1300&q=85'">
+        <span class="experience-stamp">L<br><small>ÉDITION</small></span>
       </div>
       <div class="experience-content">
-        <div class="eyebrow">
-          <span class="eyebrow-line"></span>
-          <span data-fa="فراتر از اقامت" data-en="MORE THAN A STAY">فراتر از اقامت</span>
-        </div>
-        <h2 data-fa="سفر، وقتی زیباست که <em>احساسش کنی.</em>"
-            data-en="Travel is beautiful when you <em>feel it.</em>">
-          سفر، وقتی زیباست که <em>احساسش کنی.</em>
-        </h2>
-        <p data-fa="از صبحانه در کنار دریا تا شب‌هایی زیر آسمان پرستاره؛ اقامتگاه‌هایی انتخاب می‌کنیم که خودشان بخشی از خاطره سفر باشند."
-           data-en="From breakfast by the sea to nights under the stars, we find stays that become part of your story.">
-          از صبحانه در کنار دریا تا شب‌هایی زیر آسمان پرستاره؛ اقامتگاه‌هایی انتخاب می‌کنیم که خودشان بخشی از خاطره سفر باشند.
-        </p>
-        <a href="#stays" class="outline-link">
-          <span data-fa="پیدا کردن اقامتگاه من" data-en="Find my stay">پیدا کردن اقامتگاه من</span> ↗
-        </a>
+        <span class="section-kicker" data-fa="بیشتر از یک اقامت" data-en="MORE THAN A STAY">بیشتر از یک اقامت</span>
+        <h2 data-fa="جزئیات کوچک،<br>خاطره‌های بزرگ." data-en="Small details.<br>Lasting memories.">جزئیات کوچک،<br>خاطره‌های بزرگ.</h2>
+        <p data-fa="ما اقامتگاه‌هایی را انتخاب می‌کنیم که در آن‌ها معماری، آرامش و مهمان‌نوازی کنار هم قرار می‌گیرند. مقصدی پیدا کن که با حال‌وهوایت هماهنگ باشد." data-en="We seek places where thoughtful design, quiet comfort and genuine hospitality come together. Find a destination that feels like you.">ما اقامتگاه‌هایی را انتخاب می‌کنیم که در آن‌ها معماری، آرامش و مهمان‌نوازی کنار هم قرار می‌گیرند. مقصدی پیدا کن که با حال‌وهوایت هماهنگ باشد.</p>
+        <a href="#hotels" class="outline-link"><span data-fa="دیدن مجموعه اقامتگاه‌ها" data-en="Explore the collection">دیدن مجموعه اقامتگاه‌ها</span><span>↗</span></a>
+        <div class="experience-note"><span>✳</span><span data-fa="منتخب برای سفرهایی که ارزش به خاطر سپردن دارند." data-en="Curated for journeys worth remembering.">منتخب برای سفرهایی که ارزش به خاطر سپردن دارند.</span></div>
       </div>
     </section>
 
-    <section class="newsletter section-pad" id="about">
-      <span class="newsletter-symbol">✳</span>
-      <div class="eyebrow dark-eyebrow">
-        <span class="eyebrow-line"></span>
-        <span data-fa="نامه‌ای از دنیای سفر" data-en="A NOTE FROM OUR WORLD">نامه‌ای از دنیای سفر</span>
+    <section class="newsletter" id="about">
+      <div class="newsletter-mark">L.</div>
+      <div class="newsletter-copy">
+        <span class="section-kicker" data-fa="نامه‌هایی برای سفر" data-en="NOTES FOR YOUR NEXT JOURNEY">نامه‌هایی برای سفر</span>
+        <h2 data-fa="کمی الهام، برای سفر بعدی." data-en="A little inspiration for your next escape.">کمی الهام، برای سفر بعدی.</h2>
+        <p data-fa="مقصدهای خاص و اقامتگاه‌های تازه را کشف کن." data-en="Discover special destinations and new stays.">مقصدهای خاص و اقامتگاه‌های تازه را کشف کن.</p>
       </div>
-      <h2 data-fa="مقصد بعدی‌ات، شاید <em>اینجاست.</em>"
-          data-en="Your next escape might <em>be here.</em>">
-        مقصد بعدی‌ات، شاید <em>اینجاست.</em>
-      </h2>
-      <p data-fa="برای دریافت الهام سفر و اقامتگاه‌های خاص، ایمیلت را وارد کن."
-         data-en="Get travel inspiration and discover exceptional stays.">
-        برای دریافت الهام سفر و اقامتگاه‌های خاص، ایمیلت را وارد کن.
-      </p>
       <form class="newsletter-form" id="newsletterForm">
-        <input type="email" id="emailInput" placeholder="ایمیل شما" data-placeholder-fa="ایمیل شما" data-placeholder-en="Your email address" required>
-        <button type="submit" data-fa="عضویت ↗" data-en="Subscribe ↗">عضویت ↗</button>
+        <input id="emailInput" type="email" placeholder="ایمیل شما" data-placeholder-fa="ایمیل شما" data-placeholder-en="Your email address" required>
+        <button type="submit" aria-label="ثبت ایمیل">↗</button>
       </form>
       <p class="newsletter-message" id="newsletterMessage" aria-live="polite"></p>
     </section>
   </main>
 
   <footer class="footer">
-    <a href="#" class="logo footer-logo">
-      <span class="logo-mark">L</span>
-      <span>LUMIÈRE<small>LUXURY STAYS</small></span>
+    <a class="brand footer-brand" href="#">
+      <span class="brand-icon">L</span>
+      <span class="brand-name">LUMIÈRE<small>HOTELS & GETAWAYS</small></span>
     </a>
-    <p data-fa="اقامت متفاوت، خاطرات ماندگار." data-en="Exceptional stays. Lasting memories.">اقامت متفاوت، خاطرات ماندگار.</p>
-    <span>© 2026 LUMIÈRE</span>
+    <p data-fa="برای لحظه‌هایی که می‌مانند." data-en="For moments that stay with you.">برای لحظه‌هایی که می‌مانند.</p>
+    <span class="footer-copy">© 2026 LUMIÈRE HOTELS · CONCEPT PROJECT</span>
   </footer>
 
-  <dialog id="bookingDialog" class="booking-dialog">
-    <button id="closeDialog" class="close-dialog" type="button" aria-label="Close">×</button>
-    <span class="dialog-kicker">LUMIÈRE · PRIVATE COLLECTION</span>
-    <h2 id="dialogTitle">Your next escape</h2>
-    <p id="dialogDescription">Review your stay details.</p>
-    <div class="dialog-price" id="dialogPrice"></div>
-    <p class="demo-note" data-fa="این نسخه نمایشی است؛ برای رزرو واقعی به سامانه رزرو و پرداخت متصل می‌شود."
-       data-en="Demo experience: real reservations require a booking and payment backend.">
-      این نسخه نمایشی است؛ برای رزرو واقعی به سامانه رزرو و پرداخت متصل می‌شود.
-    </p>
-    <button id="confirmDemo" class="search-btn dialog-confirm" type="button"
-      data-fa="متوجه شدم" data-en="Got it">متوجه شدم</button>
+  <dialog class="booking-dialog" id="bookingDialog">
+    <button class="dialog-close" id="closeDialog" type="button" aria-label="بستن">×</button>
+    <span class="dialog-monogram">L.</span>
+    <span class="section-kicker" data-fa="درخواست اقامت" data-en="STAY REQUEST">درخواست اقامت</span>
+    <h2 id="dialogTitle">نام اقامتگاه</h2>
+    <p id="dialogDescription" data-fa="این یک نمونه نمایشی از فرایند رزرو است. رزرو و پرداخت واقعی فعال نیست." data-en="This is a booking demo. Real reservations and payments are not enabled.">این یک نمونه نمایشی از فرایند رزرو است. رزرو و پرداخت واقعی فعال نیست.</p>
+    <div class="dialog-summary"><span data-fa="قیمت نمایشی هر شب" data-en="Demo price per night">قیمت نمایشی هر شب</span><strong id="dialogPrice">—</strong></div>
+    <button class="dialog-confirm" id="confirmDemo" type="button" data-fa="متوجه شدم" data-en="Got it">متوجه شدم</button>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script src="script.js"></script>
 </body>
 </html>
