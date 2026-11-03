@@ -1,4 +1,17 @@
+window.addEventListener("load", function () {
+  const intro = document.getElementById("introScreen");
 
+  if (!intro) return;
+
+  window.setTimeout(function () {
+    intro.classList.add("intro-hidden");
+
+    window.setTimeout(function () {
+      intro.remove();
+    }, 800);
+  }, 3000);
+});
+let currentLanguage = "fa";
 const products = [
   {
     id: 1,
@@ -90,6 +103,59 @@ const products = [
   }
 ];
 
+const productTranslations = {
+  1: {
+    name: "Sport Car Rims",
+    category: "Accessories",
+    tag: "Bestseller",
+    description: "Sporty design for a distinctive look"
+  },
+  2: {
+    name: "Premium Engine Oil",
+    category: "Oil & Maintenance",
+    tag: "Popular",
+    description: "Ideal for routine vehicle maintenance"
+  },
+  3: {
+    name: "Dash Camera",
+    category: "Electronics",
+    tag: "Featured",
+    description: "Practical equipment for safer driving"
+  },
+  4: {
+    name: "LED Car Lights",
+    category: "Car Lighting",
+    tag: "Recommended",
+    description: "Modern lighting for your vehicle"
+  },
+  5: {
+    name: "Car Floor Mats",
+    category: "Accessories",
+    tag: "New",
+    description: "Practical protection for your car interior"
+  },
+  6: {
+    name: "Car Tool Kit",
+    category: "Spare Parts",
+    tag: "Practical",
+    description: "Useful tools for maintenance and repairs"
+  },
+  7: {
+    name: "Car Charger",
+    category: "Electronics",
+    tag: "Popular",
+    description: "A handy companion for everyday journeys"
+  },
+  8: {
+    name: "Car Safety Kit",
+    category: "Car Safety",
+    tag: "Essential",
+    description: "Essential equipment for safer trips"
+  }
+};
+
+
+
 const productGrid = document.getElementById("productGrid");
 const emptyMessage = document.getElementById("emptyMessage");
 const cartCount = document.getElementById("cartCount");
@@ -105,6 +171,10 @@ let cart = [];
 let toastTimeout;
 
 function formatPrice(price) {
+  if (currentLanguage === "en") {
+    return new Intl.NumberFormat("en-US").format(price) + " Toman";
+  }
+
   return new Intl.NumberFormat("fa-IR").format(price) + " تومان";
 }
 
@@ -118,18 +188,19 @@ function showToast(message) {
   }, 2600);
 }
 
+
 function renderProducts() {
   const filtered = products.filter(product => {
     const matchesCategory =
       activeCategory === "همه" || product.category === activeCategory;
 
-    const text = (
-      product.name + " " +
-      product.category + " " +
-      product.description
-    ).toLocaleLowerCase("fa");
+    const translation = productTranslations[product.id] || {};
+    const searchName = currentLanguage === "en" ? translation.name : product.name;
+    const searchCategory = currentLanguage === "en" ? translation.category : product.category;
+    const searchDescription = currentLanguage === "en" ? translation.description : product.description;
 
-    const matchesSearch = text.includes(searchTerm.toLocaleLowerCase("fa"));
+    const text = (searchName + " " + searchCategory + " " + searchDescription).toLocaleLowerCase();
+    const matchesSearch = text.includes(searchTerm.toLocaleLowerCase());
 
     return matchesCategory && matchesSearch;
   });
@@ -138,6 +209,20 @@ function renderProducts() {
   emptyMessage.hidden = filtered.length !== 0;
 
   filtered.forEach((product, index) => {
+    const translated = productTranslations[product.id] || {};
+    const name = currentLanguage === "en" ? translated.name : product.name;
+    const category = currentLanguage === "en" ? translated.category : product.category;
+    const tag = currentLanguage === "en" ? translated.tag : product.tag;
+    const description = currentLanguage === "en" ? translated.description : product.description;
+
+    const ratingText = currentLanguage === "en"
+      ? `${product.rating} out of 5`
+      : `${product.rating} از ۵`;
+
+    const addText = currentLanguage === "en"
+      ? "＋ Add to Cart"
+      : "＋ افزودن به سبد";
+
     const card = document.createElement("article");
     card.className = "product-card";
     card.style.animationDelay = `${index * 60}ms`;
@@ -145,17 +230,17 @@ function renderProducts() {
     card.innerHTML = `
       <div class="product-image">
         <div class="product-placeholder" aria-hidden="true">${product.icon}</div>
-        <img src="${product.image}" alt="${product.name}" loading="lazy">
-        <span class="product-tag">${product.tag}</span>
+        <img src="${product.image}" alt="${name}" loading="lazy">
+        <span class="product-tag">${tag}</span>
       </div>
       <div class="product-info">
-        <span class="product-category">${product.category}</span>
-        <h3>${product.name}</h3>
-        <p class="product-description">${product.description}</p>
-        <div class="product-rating">★ ★ ★ ★ ★ <small>${product.rating} از ۵</small></div>
+        <span class="product-category">${category}</span>
+        <h3>${name}</h3>
+        <p class="product-description">${description}</p>
+        <div class="product-rating">★ ★ ★ ★ ★ <small>${ratingText}</small></div>
         <div class="product-bottom">
-          <span class="product-price">${formatPrice(product.price)}</span>
-          <button class="add-cart" data-add="${product.id}">＋ افزودن به سبد</button>
+        <span class="product-price">${formatPrice(product.price)}</span>
+          <button class="add-cart" data-add="${product.id}">${addText}</button>
         </div>
       </div>
     `;
@@ -175,23 +260,27 @@ function renderProducts() {
     productGrid.appendChild(card);
   });
 }
-
 function setCategory(category) {
   activeCategory = category;
-
+console.log("Topbar found:", document.querySelectorAll(".topbar [data-fa][data-en]").length);
   document.querySelectorAll(".filter-btn").forEach(button => {
-    button.classList.toggle("active", button.dataset.filter === category);
+    button.classList.toggle(
+      "active",
+      button.dataset.filter === category
+    );
   });
 
   renderProducts();
 }
 
+// دکمه‌های فیلتر محصولات
 document.querySelectorAll(".filter-btn").forEach(button => {
   button.addEventListener("click", () => {
     setCategory(button.dataset.filter);
   });
 });
 
+// دسته‌بندی‌های صفحه
 document.querySelectorAll(".category-card").forEach(button => {
   button.addEventListener("click", () => {
     const category = button.dataset.category;
@@ -202,7 +291,7 @@ document.querySelectorAll(".category-card").forEach(button => {
     });
   });
 });
-
+  
 // جست‌وجوی محصولات
 const searchPanel = document.getElementById("searchPanel");
 const searchInput = document.getElementById("searchInput");
@@ -383,30 +472,48 @@ renderProducts();
 renderCart();
 
 
-/* AUTO LUXE intro: auto-enter after 3 seconds */
-(() => {
-  const intro = document.getElementById("introScreen");
 
-  if (!intro) return;
-
-  const closeIntro = () => {
-    intro.classList.add("intro-hidden");
-
-    window.setTimeout(() => {
-      intro.remove();
-    }, 800);
-  };
-
-  window.setTimeout(closeIntro, 3000);
-})();
+  
 // AUTO LUXE Intro Screen
 document.addEventListener("DOMContentLoaded", function () {
-  const introScreen = document.getElementById("introScreen");
+ 
+const introScreen = document.getElementById("introScreen");
 
-  if (introScreen) {
-    setTimeout(function () {
-      introScreen.classList.add("intro-hidden");
-    }, 2000);
+ 
+
+
+function toggleLanguage() {
+  currentLanguage = currentLanguage === "fa" ? "en" : "fa";
+
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir =
+    currentLanguage === "fa" ? "rtl" : "ltr";
+
+  document.querySelectorAll("[data-fa][data-en]").forEach((element) => {
+    console.log(element.className, currentLanguage, element.getAttribute("data-en"));
+   element.innerHTML = element.getAttribute(
+   currentLanguage === "fa" ? "data-fa" : "data-en"
+  );
+  });
+
+  const button = document.getElementById("languageToggle");
+
+  if (button) {
+    button.textContent = currentLanguage === "fa" ? "EN" : "FA";
   }
-});
+ if (typeof renderProducts === "function") {
+  renderProducts();
+}
+  const searchInput = document.getElementById("searchInput");
 
+if (searchInput) {
+  searchInput.placeholder =
+    currentLanguage === "fa"
+      ? searchInput.getAttribute("data-fa-placeholder")
+      : searchInput.getAttribute("data-en-placeholder");
+}
+}
+
+window.toggleLanguage = toggleLanguage;
+});
+ 
